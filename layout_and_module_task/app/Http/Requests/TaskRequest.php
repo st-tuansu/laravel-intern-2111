@@ -26,8 +26,8 @@ class TaskRequest extends FormRequest
         return [
             'title' => 'required|min:5|max:255',
             'description' => 'required|max:255',
-            'type' => 'required|numeric',
-            'status' => 'required|numeric',
+            'type' => 'required|numeric|min:1|max:3',
+            'status' => 'required|numeric|min:1|max:6',
             'start_date' => 'required|date|after_or_equal:today',
             'due_date' => 'required|date|after_or_equal:start_date',
             'assignee' => 'required|numeric',

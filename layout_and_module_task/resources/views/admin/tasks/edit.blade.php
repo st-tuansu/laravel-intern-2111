@@ -2,14 +2,19 @@
 
 @section('content')
     <h1>Edit task</h1>
+    @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
     <form action="{{ route('tasks.update', ['id' => $id]) }}" method="post">
         @csrf
         @method('PATCH')
         <table class="table">
-            @foreach ($task as $key => $value)
+            
                 <tr>
                     <td><input type="text" name="title" class="form-control form-control-user" id="title" placeholder="Title"
-                            value="{{ $value['title'] }}">
+                            value="{{ $task->title }}">
                         @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -17,7 +22,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="description" class="form-control form-control-user" id="description"
-                            placeholder="Description" value="{{ $value['description'] }}">
+                            placeholder="Description" value="{{ $task->description }}">
                         @error('description')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -25,7 +30,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="type" class="form-control form-control-user" id="type" placeholder="Type"
-                            value="{{ $value['type'] }}">
+                            value="{{ $task->type }}">
                         @error('type')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -33,7 +38,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="status" class="form-control form-control-user" id="status"
-                            placeholder="Status" value="{{ $value['status'] }}">
+                            placeholder="Status" value="{{ $task->status }}">
                         @error('status')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -41,7 +46,7 @@
                 </tr>
                 <tr>
                     <td><input type="date" name="start_date" class="form-control form-control-user" id="start_date"
-                            placeholder="Start_date" value="{{ $value['start_date'] }}">
+                            placeholder="Start_date" value="{{ $task->start_date }}">
                         @error('start_date')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -49,7 +54,7 @@
                 </tr>
                 <tr>
                     <td><input type="date" name="due_date" class="form-control form-control-user" id="due_date"
-                            placeholder="Due_date" value="{{ $value['due_date'] }}">
+                            placeholder="Due_date" value="{{ $task->due_date }}">
                         @error('due_date')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -57,7 +62,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="assignee" class="form-control form-control-user" id="assignee"
-                            placeholder="Assignee" value="{{ $value['assignee'] }}">
+                            placeholder="Assignee" value="{{ $task->assignee }}">
                         @error('assignee')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -65,7 +70,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="estimate" class="form-control form-control-user" id="estimate"
-                            placeholder="Estimate" value="{{ $value['estimate'] }}">
+                            placeholder="Estimate" value="{{ $task->estimate }}">
                         @error('estimate')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -73,7 +78,7 @@
                 </tr>
                 <tr>
                     <td><input type="text" name="actual" class="form-control form-control-user" id="actual"
-                            placeholder="Actual" value="{{ $value['actual'] }}">
+                            placeholder="Actual" value="{{ $task->actual }}">
                         @error('actual')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -88,7 +93,7 @@
                         <input type="submit" class="btn btn-primary" value="Update Task">
                     </td>
                 </tr>
-            @endforeach
+            
         </table>
     </form>
 @endsection

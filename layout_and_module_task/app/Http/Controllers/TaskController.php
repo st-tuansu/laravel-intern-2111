@@ -15,11 +15,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $data = DB::table('tasks')
+        $tasks = DB::table('tasks')
             ->select('tasks.*', 'users.name')
             ->join('users', 'tasks.assignee', '=', 'users.id')
+            ->orderBy('id')
             ->get();
-        $tasks = json_decode($data, true);
         return view('admin.tasks.index', compact('tasks'));
     }
 
@@ -30,7 +30,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('admin.tasks.create');
+        $users = DB::table('users')->get();
+        return view('admin.tasks.create',compact('users'));
     }
 
     /**
@@ -41,21 +42,19 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        $data = $request->all();
-        $result = DB::table('tasks')
-            ->insertGetId(array(
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'type' => $data['type'],
-                'status' => $data['status'],
-                'start_date' => $data['start_date'],
-                'due_date' => $data['due_date'],
-                'assignee' => $data['assignee'],
-                'estimate' => $data['estimate'],
-                'actual' => $data['actual'],
+        DB::table('tasks')
+            ->insert(array(
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'status' => $request->status,
+                'start_date' => $request->start_date,
+                'due_date' => $request->due_date,
+                'assignee' => $request->assignee,
+                'estimate' => $request->estimate,
+                'actual' => $request->actual,
             ));
-        $result = "Insert successful";
-        return view('admin.tasks.store', compact('result'));
+        return back()->with('success', 'Task created successfully!');
     }
 
     /**
@@ -66,12 +65,11 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $data = DB::table('tasks')
+        $task = DB::table('tasks')
             ->select('tasks.*', 'users.name')
             ->join('users', 'tasks.assignee', '=', 'users.id')
             ->where('tasks.id', $id)
-            ->get();
-        $task = json_decode($data, true);
+            ->first();
         return view('admin.tasks.show', compact('task'));
     }
 
@@ -83,13 +81,12 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $data = DB::table('tasks')
+        $task = DB::table('tasks')
             ->select('tasks.*', 'users.name')
             ->join('users', 'tasks.assignee', '=', 'users.id')
             ->where('tasks.id', $id)
-            ->get();
-        $task = json_decode($data, true);
-        return view('admin.tasks.edit', compact('task', 'id'));
+            ->first();
+        return view('admin.tasks.edit', compact('task','id'));
     }
 
     /**
@@ -101,21 +98,20 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, $id)
     {
-        $data = $request->all();
-        $result = DB::table('tasks')
+        DB::table('tasks')
             ->where('id', $id)
             ->update(array(
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'type' => $data['type'],
-                'status' => $data['status'],
-                'start_date' => $data['start_date'],
-                'due_date' => $data['due_date'],
-                'assignee' => $data['assignee'],
-                'estimate' => $data['estimate'],
-                'actual' => $data['actual'],
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'status' => $request->status,
+                'start_date' => $request->start_date,
+                'due_date' => $request->due_date,
+                'assignee' => $request->assignee,
+                'estimate' => $request->estimate,
+                'actual' => $request->actual,
             ));
-        return view('admin.tasks.update', compact('data', 'id'));
+        return back()->with('success', 'Task updated successfully!');
     }
 
     /**
@@ -128,8 +124,7 @@ class TaskController extends Controller
     {
         if (DB::table('tasks')->where('id', $id)->exists()) {
             DB::table('tasks')->where('id', $id)->delete();
-            $result = "Delete successful";
-            return view('admin.tasks.destroy', compact('result', 'id'));
+            return back()->with('success', 'Task deleted successfully!');
         }
     }
 
@@ -138,7 +133,7 @@ class TaskController extends Controller
     {
         $data = DB::table('users')->get(); //Lấy tất cả dữ liệu trong table.
 
-        $data1 = DB::table('users')->select('users.name')->where('id', 1)->get(); //Lấy ra một dữ liệu trong table.
+        $data1 = DB::table('users')->select('name')->where('id', 1)->first(); //Lấy ra một dữ liệu trong table.
 
         $chunk = DB::table('users')->orderBy('id')->chunk(5, function ($users) { //Chunk giá trị trả về.
             foreach ($users as $user) {
