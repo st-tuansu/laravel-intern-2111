@@ -62,9 +62,9 @@
             <tr>
                 <td>
                     <p>Chose assignee</p>
-                    <select multiple="true" name="assignee" id="assignee" class="form-control select2">
+                    <select name="assignee" id="assignee" class="form-control select2">
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @if($task->assignee == $user->id) selected @endif}}>{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" @if($task->assignee == $user->id) selected @endif>{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </td>
