@@ -61,8 +61,8 @@
                 <td>
                     <p>Chose assignee</p>
                     <select multiple="true" name="assignee" id="assignee" class="form-control select2">
-                        @foreach ($users as $key)
-                            <option value="{{ $key->id }}" selected="selected">{{ $key->name }}</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $uer->id }}" selected="selected">{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </td>

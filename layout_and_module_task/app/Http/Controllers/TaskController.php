@@ -20,6 +20,7 @@ class TaskController extends Controller
             ->join('users', 'tasks.assignee', '=', 'users.id')
             ->orderBy('id')
             ->get();
+
         return view('admin.tasks.index', compact('tasks'));
     }
 
@@ -31,7 +32,8 @@ class TaskController extends Controller
     public function create()
     {
         $users = DB::table('users')->get();
-        return view('admin.tasks.create',compact('users'));
+
+        return view('admin.tasks.create', compact('users'));
     }
 
     /**
@@ -54,6 +56,7 @@ class TaskController extends Controller
                 'estimate' => $request->estimate,
                 'actual' => $request->actual,
             ));
+
         return back()->with('success', 'Task created successfully!');
     }
 
@@ -70,6 +73,7 @@ class TaskController extends Controller
             ->join('users', 'tasks.assignee', '=', 'users.id')
             ->where('tasks.id', $id)
             ->first();
+
         return view('admin.tasks.show', compact('task'));
     }
 
@@ -81,12 +85,12 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
+        $users = DB::table('users')->get();
         $task = DB::table('tasks')
-            ->select('tasks.*', 'users.name')
-            ->join('users', 'tasks.assignee', '=', 'users.id')
             ->where('tasks.id', $id)
             ->first();
-        return view('admin.tasks.edit', compact('task','id'));
+
+        return view('admin.tasks.edit', compact('task','users'));
     }
 
     /**
@@ -111,6 +115,7 @@ class TaskController extends Controller
                 'estimate' => $request->estimate,
                 'actual' => $request->actual,
             ));
+
         return back()->with('success', 'Task updated successfully!');
     }
 
@@ -124,6 +129,7 @@ class TaskController extends Controller
     {
         if (DB::table('tasks')->where('id', $id)->exists()) {
             DB::table('tasks')->where('id', $id)->delete();
+
             return back()->with('success', 'Task deleted successfully!');
         }
     }
