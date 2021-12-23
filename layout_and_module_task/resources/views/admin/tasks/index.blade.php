@@ -24,20 +24,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($tasks as $key)
+            @foreach ($tasks as $task)
                 <tr>
-                    <td>{{ $key->id }}</td>
-                    <td>{{ $key->title }}</td>
-                    <td>{{ $key->description }}</td>
-                    <td>{{ $key->type }}</td>
-                    <td>{{ $key->status }}</td>
-                    <td>{{ $key->start_date }}</td>
-                    <td>{{ $key->due_date }}</td>
-                    <td>{{ $key->name }}</td>
-                    <td>{{ $key->estimate }}</td>
-                    <td>{{ $key->actual }}</td>
+                    <td>{{ $task->id }}</td>
+                    <td>{{ $task->title }}</td>
+                    <td>{{ $task->description }}</td>
+                    <td>{{ $task->type }}</td>
+                    <td>{{ $task->status }}</td>
+                    <td>{{ $task->start_date }}</td>
+                    <td>{{ $task->due_date }}</td>
+                    <td>{{ $task->name }}</td>
+                    <td>{{ $task->estimate }}</td>
+                    <td>{{ $task->actual }}</td>
                     <td>
-                        <form action="{{ route('tasks.destroy', ['id' => $key->id]) }}" method="POST">
+                        <form action="{{ route('tasks.destroy', ['id' => $task->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Are you want delete?')"
@@ -45,9 +45,9 @@
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
-                        <a href="{{ route('tasks.show', ['id' => $key->id]) }}" type="button" style=""
+                        <a href="{{ route('tasks.show', ['id' => $task->id]) }}" type="button" style=""
                             class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>
-                        <a href="{{ route('tasks.edit', ['id' => $key->id]) }}" type="button"
+                        <a href="{{ route('tasks.edit', ['id' => $task->id]) }}" type="button"
                             class="btn btn-warning btn-circle btn-sm"><i class="far fa-edit"></i></a>
                     </td>
                 </tr>

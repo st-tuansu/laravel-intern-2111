@@ -17,8 +17,8 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->integer('type');
-            $table->integer('status');
+            $table->tinyInteger('type');
+            $table->tinyInteger('status');
             $table->date('start_date');
             $table->date('due_date');
             $table->unsignedBigInteger('assignee');

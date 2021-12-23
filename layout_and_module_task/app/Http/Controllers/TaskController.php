@@ -87,7 +87,7 @@ class TaskController extends Controller
     {
         $users = DB::table('users')->get();
         $task = DB::table('tasks')
-            ->where('tasks.id', $id)
+            ->where('id', $id)
             ->first();
 
         return view('admin.tasks.edit', compact('task','users'));
