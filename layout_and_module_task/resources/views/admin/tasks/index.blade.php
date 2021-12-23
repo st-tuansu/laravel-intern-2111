@@ -2,9 +2,15 @@
 
 @section('content')
     <h1>List tasks</h1>
+    @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
     <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Type</th>
@@ -18,30 +24,31 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($task as $key => $value)
+            @foreach ($tasks as $task)
                 <tr>
-                    <td>{{ $value['title'] }}</td>
-                    <td>{{ $value['description'] }}</td>
-                    <td>{{ $value['type'] }}</td>
-                    <td>{{ $value['status'] }}</td>
-                    <td>{{ $value['start_date'] }}</td>
-                    <td>{{ $value['due_date'] }}</td>
-                    <td>{{ $value['assignee'] }}</td>
-                    <td>{{ $value['estimate'] }}</td>
-                    <td>{{ $value['actual'] }}</td>
+                    <td>{{ $task->id }}</td>
+                    <td>{{ $task->title }}</td>
+                    <td>{{ $task->description }}</td>
+                    <td>{{ $task->type }}</td>
+                    <td>{{ $task->status }}</td>
+                    <td>{{ $task->start_date }}</td>
+                    <td>{{ $task->due_date }}</td>
+                    <td>{{ $task->name }}</td>
+                    <td>{{ $task->estimate }}</td>
+                    <td>{{ $task->actual }}</td>
                     <td>
-                        <form action="{{ route('tasks.destroy', ['id' => $value['title']]) }}" method="POST">
+                        <form action="{{ route('tasks.destroy', ['id' => $task->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <a href="{{ route('tasks.show', ['id' => $value['title']]) }}" type="button" style=""
-                                class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>
-                            <a href="{{ route('tasks.edit', ['id' => $value['title']]) }}" type="button"
-                                class="btn btn-warning btn-circle btn-sm"><i class="far fa-edit"></i></a>
                             <button type="submit" onclick="return confirm('Are you want delete?')"
                                 class="btn btn-danger btn-circle btn-sm">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
+                        <a href="{{ route('tasks.show', ['id' => $task->id]) }}" type="button" style=""
+                            class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>
+                        <a href="{{ route('tasks.edit', ['id' => $task->id]) }}" type="button"
+                            class="btn btn-warning btn-circle btn-sm"><i class="far fa-edit"></i></a>
                     </td>
                 </tr>
             @endforeach

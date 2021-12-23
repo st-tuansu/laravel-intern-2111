@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTaskRequest extends FormRequest
+class TaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +26,13 @@ class StoreTaskRequest extends FormRequest
         return [
             'title' => 'required|min:5|max:255',
             'description' => 'required|max:255',
-            'type' => 'required',
-            'status' => 'required',
+            'type' => 'required|numeric|min:1|max:3',
+            'status' => 'required|numeric|min:1|max:6',
             'start_date' => 'required|date|after_or_equal:today',
             'due_date' => 'required|date|after_or_equal:start_date',
-            'assignee' => 'required',
-            'estimate' => 'required',
-            'actual' => 'required',
+            'assignee' => 'required|numeric',
+            'estimate' => 'required|numeric',
+            'actual' => 'required|numeric',
         ];
     }
 
@@ -41,7 +41,6 @@ class StoreTaskRequest extends FormRequest
         return [
             /* 'required' => ':attribute bắt buộc nhập',
             'min' => ':attribute phải nhập ít nhất :min kí tự',
-            'max' => ':attribute có số kí tự tối đa :max' */
-        ];
+            'max' => ':attribute có số kí tự tối đa :max' */];
     }
 }

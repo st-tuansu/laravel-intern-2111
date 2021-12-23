@@ -5,40 +5,41 @@
         <h1>Show details</h1>
         <tr>
             <td>Title</td>
-            <td>{{ $task['title'] }}</td>
+            <td>{{ $task->title }}</td>
         </tr>
         <tr>
             <td>Description</td>
-            <td>{{ $task['description'] }}</td>
+            <td>{{ $task->description }}</td>
         </tr>
         <tr>
             <td>Type</td>
-            <td>{{ $task['type'] }}</td>
+            <td>{{ $task->type }}</td>
         </tr>
         <tr>
             <td>Status</td>
-            <td>{{ $task['status'] }}</td>
+            <td>{{ $task->status }}</td>
         </tr>
         <tr>
             <td>Start_date</td>
-            <td>{{ $task['start_date'] }}</td>
+            <td>{{ $task->start_date }}</td>
         </tr>
         <tr>
             <td>Due_date</td>
-            <td>{{ $task['due_date'] }}</td>
+            <td>{{ $task->due_date }}</td>
         </tr>
         <tr>
             <td>Assignee</td>
-            <td>{{ $task['assignee'] }}</td>
+            <td>{{ $task->name }}</td>
         </tr>
         <tr>
             <td>Estimate</td>
-            <td>{{ $task['estimate'] }}</td>
+            <td>{{ $task->estimate }}</td>
         </tr>
         <tr>
             <td>Actual</td>
-            <td>{{ $task['actual'] }}</td>
+            <td>{{ $task->actual }}</td>
         </tr>
+
     </table>
     <td>
         <a href="{{ route('tasks.index') }}" type="button" style="" class="btn btn-primary btn-icon-split"><span
