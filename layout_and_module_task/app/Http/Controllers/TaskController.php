@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+
 
 class TaskController extends Controller
 {
@@ -15,14 +19,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = DB::table('tasks')
-            ->select('tasks.*', 'users.name')
-            ->join('users', 'tasks.assignee', '=', 'users.id')
-            ->orderBy('id')
-            ->get();
+        $tasks = Task::getAllTask();
 
         return view('admin.tasks.index', compact('tasks'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,7 +33,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $users = DB::table('users')->get();
+        $users = User::all();
 
         return view('admin.tasks.create', compact('users'));
     }
@@ -44,18 +46,7 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        DB::table('tasks')
-            ->insert(array(
-                'title' => $request->title,
-                'description' => $request->description,
-                'type' => $request->type,
-                'status' => $request->status,
-                'start_date' => $request->start_date,
-                'due_date' => $request->due_date,
-                'assignee' => $request->assignee,
-                'estimate' => $request->estimate,
-                'actual' => $request->actual,
-            ));
+        Task::create($request->all());
 
         return back()->with('success', 'Task created successfully!');
     }
@@ -68,11 +59,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $task = DB::table('tasks')
-            ->select('tasks.*', 'users.name')
-            ->join('users', 'tasks.assignee', '=', 'users.id')
-            ->where('tasks.id', $id)
-            ->first();
+        $task = Task::getOneTask($id);
 
         return view('admin.tasks.show', compact('task'));
     }
@@ -85,12 +72,10 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $users = DB::table('users')->get();
-        $task = DB::table('tasks')
-            ->where('id', $id)
-            ->first();
+        $users = User::all();
+        $task = Task::getOneTask($id);
 
-        return view('admin.tasks.edit', compact('task','users'));
+        return view('admin.tasks.edit', compact('task', 'users'));
     }
 
     /**
@@ -102,19 +87,8 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, $id)
     {
-        DB::table('tasks')
-            ->where('id', $id)
-            ->update(array(
-                'title' => $request->title,
-                'description' => $request->description,
-                'type' => $request->type,
-                'status' => $request->status,
-                'start_date' => $request->start_date,
-                'due_date' => $request->due_date,
-                'assignee' => $request->assignee,
-                'estimate' => $request->estimate,
-                'actual' => $request->actual,
-            ));
+        $task = Task::find($id);
+        $task->update($request->all());
 
         return back()->with('success', 'Task updated successfully!');
     }
@@ -127,11 +101,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        if (DB::table('tasks')->where('id', $id)->exists()) {
-            DB::table('tasks')->where('id', $id)->delete();
+        Task::find($id)->delete();
 
-            return back()->with('success', 'Task deleted successfully!');
-        }
+        return back()->with('success', 'Task deleted successfully!');
     }
 
 
