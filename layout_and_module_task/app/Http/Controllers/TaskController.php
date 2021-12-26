@@ -8,10 +8,21 @@ use App\Http\Requests\TaskRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-
+use App\Interfaces\TaskRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 
 class TaskController extends Controller
 {
+
+    private TaskRepositoryInterface $taskRepository;
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(TaskRepositoryInterface $taskRepository, UserRepositoryInterface $userRepository)
+    {
+        $this->taskRepository = $taskRepository;
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +30,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::getAllTask();
+        //$tasks = Task::getAllTask();
+        $tasks = $this->taskRepository->getAllTasks();
 
         return view('admin.tasks.index', compact('tasks'));
     }
@@ -33,7 +45,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        //$users = User::all();
+        $users  = $this->userRepository->getAllUsers();
 
         return view('admin.tasks.create', compact('users'));
     }
@@ -46,7 +59,8 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        Task::create($request->all());
+        //Task::create($request->all());
+        $this->taskRepository->createTask($request->validated());
 
         return back()->with('success', 'Task created successfully!');
     }
@@ -59,7 +73,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $task = Task::getOneTask($id);
+        //$task = Task::getOneTask($id);
+        $task = $this->taskRepository->getTaskById($id);
 
         return view('admin.tasks.show', compact('task'));
     }
@@ -72,8 +87,11 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $users = User::all();
-        $task = Task::getOneTask($id);
+        //$users = User::all();
+        //$task = Task::getOneTask($id);
+
+        $users = $this->userRepository->getAllUsers();
+        $task = $this->taskRepository->getTaskById($id);
 
         return view('admin.tasks.edit', compact('task', 'users'));
     }
@@ -87,9 +105,10 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, $id)
     {
-        $task = Task::find($id);
-        $task->update($request->all());
+        //$task = Task::find($id);
+        //$task->update($request->all());
 
+        $this->taskRepository->updateTask($id, $request->validated());
         return back()->with('success', 'Task updated successfully!');
     }
 
@@ -101,50 +120,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        Task::find($id)->delete();
+        //Task::find($id)->delete();
 
+        $this->taskRepository->deleteTask($id);
         return back()->with('success', 'Task deleted successfully!');
-    }
-
-
-    public function practice()
-    {
-        $data = DB::table('users')->get(); //Lấy tất cả dữ liệu trong table.
-
-        $data1 = DB::table('users')->select('name')->where('id', 1)->first(); //Lấy ra một dữ liệu trong table.
-
-        $chunk = DB::table('users')->orderBy('id')->chunk(5, function ($users) { //Chunk giá trị trả về.
-            foreach ($users as $user) {
-                echo $user->email;
-            }
-        });
-
-        $taskCount = DB::table('users')->count(); //Đếm số lượng record trả về.
-
-        if (DB::table('users')->where('id', 2)->exists()) { //Kiểm tra sự tồn tại của dữ liệu
-            $exists = "Tồn tại user";
-        } else {
-            $exists = "Không tồn tại user";
-        }
-
-        $join = DB::table('tasks') //Join table
-            ->select('tasks.*', 'users.name')
-            ->join('users', 'tasks.assignee', '=', 'users.id')
-            ->get();
-
-        $first = DB::table('users')
-            ->where('id', 3);
-
-        $users = DB::table('users')
-            ->where('id', 1)
-            ->union($first) //Union query
-            ->get();
-
-        $result = DB::table('users') // Where query
-            ->whereIn('id', [4, 5, 6])
-            ->orwhere('name', 'Delilah')
-            ->get();
-
-        //echo dd($result);
     }
 }

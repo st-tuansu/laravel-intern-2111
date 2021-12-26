@@ -69,7 +69,7 @@ class Task extends Model
     }
 
 
-    public function scopeGetAllTask($query)
+   /*  public function scopeGetAllTask($query)
     {
         return $query->get();
     }
@@ -77,5 +77,5 @@ class Task extends Model
     public function scopeGetOneTask($query, $id)
     {
         return $query->findOrFail($id);
-    }
+    } */
 }
