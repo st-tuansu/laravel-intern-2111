@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
 
@@ -13,8 +12,12 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'tasks';
     protected $fillable = ['title', 'description', 'type', 'status', 'start_date', 'due_date', 'assignee', 'estimate', 'actual'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function getTitleAttribute($value)
     {
@@ -56,26 +59,4 @@ class Task extends Model
             '3' => 'Bug',
         ][$this->type];
     }
-
-    public function getAssigneeLabelAttribute()
-    {
-        $assignees = User::all();
-        foreach ($assignees as $assignee) {
-            if ($assignee->id == $this->assignee) {
-
-                return $this->assignee = $assignee->name;
-            }
-        }
-    }
-
-
-   /*  public function scopeGetAllTask($query)
-    {
-        return $query->get();
-    }
-
-    public function scopeGetOneTask($query, $id)
-    {
-        return $query->findOrFail($id);
-    } */
 }

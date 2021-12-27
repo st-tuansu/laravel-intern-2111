@@ -14,19 +14,7 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->tinyInteger('type');
-            $table->tinyInteger('status');
-            $table->date('start_date');
-            $table->date('due_date');
-            $table->unsignedBigInteger('assignee');
-            $table->float('estimate');
-            $table->float('actual');
-            $table->timestamps();
             $table->softDeletes();
-            $table->foreign('assignee')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();;
         });
     }
 

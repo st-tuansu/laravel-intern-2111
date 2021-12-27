@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use App\Interfaces\TaskRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Task;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -30,9 +27,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //$tasks = Task::getAllTask();
         $tasks = $this->taskRepository->getAllTasks();
-
+        
         return view('admin.tasks.index', compact('tasks'));
     }
 
@@ -45,7 +41,6 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //$users = User::all();
         $users  = $this->userRepository->getAllUsers();
 
         return view('admin.tasks.create', compact('users'));
@@ -59,7 +54,6 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        //Task::create($request->all());
         $this->taskRepository->createTask($request->validated());
 
         return back()->with('success', 'Task created successfully!');
@@ -73,7 +67,6 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //$task = Task::getOneTask($id);
         $task = $this->taskRepository->getTaskById($id);
 
         return view('admin.tasks.show', compact('task'));
@@ -87,9 +80,6 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //$users = User::all();
-        //$task = Task::getOneTask($id);
-
         $users = $this->userRepository->getAllUsers();
         $task = $this->taskRepository->getTaskById($id);
 
@@ -105,10 +95,8 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, $id)
     {
-        //$task = Task::find($id);
-        //$task->update($request->all());
-
         $this->taskRepository->updateTask($id, $request->validated());
+
         return back()->with('success', 'Task updated successfully!');
     }
 
@@ -120,9 +108,8 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //Task::find($id)->delete();
-
         $this->taskRepository->deleteTask($id);
+
         return back()->with('success', 'Task deleted successfully!');
     }
 }

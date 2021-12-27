@@ -13,6 +13,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    public function tasks()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
