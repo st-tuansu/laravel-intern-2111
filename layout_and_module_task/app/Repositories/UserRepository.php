@@ -11,26 +11,4 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::all();
     }
-
-    public function getUserById($userId)
-    {
-        return User::findOrFail($userId);
-    }
-
-    public function deleteUser($userId)
-    {
-        User::destroy($userId);
-    }
-
-    public function createUser(array $userDetails)
-    {
-        return User::create($userDetails);
-    }
-
-    public function updateUser($userId, array $newDetails)
-    {
-        $user = User::whereId($userId);
-
-        return $user->update($newDetails);
-    }
 }

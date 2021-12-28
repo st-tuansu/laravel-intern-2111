@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskRequest;
 use App\Interfaces\TaskRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
-use App\Models\Task;
-use App\Models\User;
 
 class TaskController extends Controller
 {
 
-    private TaskRepositoryInterface $taskRepository;
-    private UserRepositoryInterface $userRepository;
+    private $taskRepository;
+    private $userRepository;
 
     public function __construct(TaskRepositoryInterface $taskRepository, UserRepositoryInterface $userRepository)
     {
@@ -28,11 +26,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = $this->taskRepository->getAllTasks();
-        
+
         return view('admin.tasks.index', compact('tasks'));
     }
-
-
 
     /**
      * Show the form for creating a new resource.
