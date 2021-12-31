@@ -29,8 +29,6 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function updateTask($taskId, array $newDetails)
     {
-        $task = Task::whereId($taskId);
-
-        return $task->update($newDetails);
+        return Task::whereId($taskId)->update($newDetails);
     }
 }
