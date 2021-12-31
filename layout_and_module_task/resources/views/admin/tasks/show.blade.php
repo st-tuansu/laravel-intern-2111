@@ -13,23 +13,23 @@
         </tr>
         <tr>
             <td>Type</td>
-            <td>{{ $task->type }}</td>
+            <td>{{ $task->type_label }}</td>
         </tr>
         <tr>
             <td>Status</td>
-            <td>{{ $task->status }}</td>
+            <td>{{ $task->status_label }}</td>
         </tr>
         <tr>
             <td>Start_date</td>
-            <td>{{ $task->start_date }}</td>
+            <td>{{ $task->start_date_label }}</td>
         </tr>
         <tr>
             <td>Due_date</td>
-            <td>{{ $task->due_date }}</td>
+            <td>{{ $task->due_date_label }}</td>
         </tr>
         <tr>
             <td>Assignee</td>
-            <td>{{ $task->name }}</td>
+            <td>{{ $task->assignee_label }}</td>
         </tr>
         <tr>
             <td>Estimate</td>

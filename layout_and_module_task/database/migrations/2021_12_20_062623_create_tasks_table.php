@@ -25,7 +25,7 @@ class CreateTasksTable extends Migration
             $table->float('estimate');
             $table->float('actual');
             $table->timestamps();
-            $table->foreign('assignee')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();;
+            $table->foreign('assignee')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
