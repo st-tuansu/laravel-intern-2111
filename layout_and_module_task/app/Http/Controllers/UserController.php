@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
-use Illuminate\Support\Facades\DB;
-use App\Interfaces\TaskRepositoryInterface;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Interfaces\UserRepositoryInterface;
 
-class TaskController extends Controller
+class UserController extends Controller
 {
-    private $taskRepository;
     private $userRepository;
 
-    public function __construct(TaskRepositoryInterface $taskRepository, UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->taskRepository = $taskRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -25,9 +22,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = $this->taskRepository->getAllTasks();
+        $users = $this->userRepository->getAllUsers();
 
-        return view('admin.tasks.index', compact('tasks'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -37,9 +34,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $users  = $this->userRepository->getAllUsers();
-
-        return view('admin.tasks.create', compact('users'));
+        //
     }
 
     /**
@@ -48,11 +43,9 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request)
+    public function store(Request $request)
     {
-        $this->taskRepository->createTask($request->validated());
-
-        return back()->with('success', 'Task created successfully!');
+        //
     }
 
     /**
@@ -63,9 +56,9 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $task = $this->taskRepository->getTaskById($id);
+        $user = $this->userRepository->getUserById($id);
 
-        return view('admin.tasks.show', compact('task'));
+        return view("admin.users.show", compact("user"));
     }
 
     /**
@@ -76,10 +69,7 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $users = $this->userRepository->getAllUsers();
-        $task = $this->taskRepository->getTaskById($id);
-
-        return view('admin.tasks.edit', compact('task', 'users'));
+        //
     }
 
     /**
@@ -89,11 +79,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->taskRepository->updateTask($id, $request->validated());
-
-        return back()->with('success', 'Task updated successfully!');
+        //
     }
 
     /**
@@ -104,8 +92,6 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        $this->taskRepository->deleteTask($id);
-
-        return back()->with('success', 'Task deleted successfully!');
+        //
     }
 }

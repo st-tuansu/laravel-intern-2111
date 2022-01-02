@@ -87,6 +87,7 @@
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">Tasks</a> --}}
                         <a href="{{ route('tasks.index') }}" type="button" style="" class="collapse-item active">Tasks</a>
+                        <a href="{{ route('users.index') }}" type="button" style="" class="collapse-item active">Users</a>
                         {{-- <a class="collapse-item active" href="blank.html">Blank Page</a> --}}
                     </div>
                 </div>

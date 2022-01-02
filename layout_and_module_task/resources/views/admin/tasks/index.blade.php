@@ -29,11 +29,11 @@
                     <td>{{ $task->id }}</td>
                     <td>{{ $task->title }}</td>
                     <td>{{ $task->description }}</td>
-                    <td>{{ $task->type }}</td>
-                    <td>{{ $task->status }}</td>
-                    <td>{{ $task->start_date }}</td>
-                    <td>{{ $task->due_date }}</td>
-                    <td>{{ $task->name }}</td>
+                    <td>{{ $task->type_label }}</td>
+                    <td>{{ $task->status_label }}</td>
+                    <td>{{ $task->start_date_label }}</td>
+                    <td>{{ $task->due_date_label }}</td>
+                    <td>{{ $task->user->name }}</td>
                     <td>{{ $task->estimate }}</td>
                     <td>{{ $task->actual }}</td>
                     <td>
